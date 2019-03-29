@@ -37,7 +37,7 @@ function generate(testLengthArray){
 
     if (i == 0){
       item.target = 10001;
-      item.output = -1;
+      item.output = -1 ;
     }
     else if (i == 1){
       item.target = item.input[0];

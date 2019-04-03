@@ -12,7 +12,7 @@ app.get('/:WebGen', function(req, res){
     
     try{
         // Get data
-        const data = JSON.parse(fs.readFileSync(__dirname + "/data/" + WebGen + ".json",{encoding: "utf-8"}))
+        const data = JSON.parse(fs.readFileSync(__dirname + "/data/" + WebGen + ".json", { encoding: "utf-8" }))
         // Create html string
         var output = `<ul style="font-size: 3rem; margin: 2rem;">`;
         data.map(function(name, key){

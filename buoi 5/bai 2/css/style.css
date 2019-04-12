@@ -1,0 +1,51 @@
+*{
+    text-align: center;
+    box-sizing: border-box;
+      
+}
+
+.header {
+    background-color: #0000ff;
+    font-weight: bold;
+}
+
+.nav {
+    background-color: #800080;
+    text-align: center;
+
+}
+
+
+
+.main {
+    background-color: #ffd700;
+    font-weight: bold;
+    /* float: left; */
+    /* width: 70%; */
+    position: relative;
+    
+    float: left;
+    width: 70%; /* three boxes (use 25% for four, and 50% for two, etc) */
+    padding: 50px; 
+
+}
+
+
+
+.aside {
+    background-color: #808080;
+    font-weight: bold;
+    /* float: right; */
+    /* width: 30%; */
+    position: relative;
+    /* position: absolute; */
+    float: left;
+    width: 30%; /* three boxes (use 25% for four, and 50% for two, etc) */
+    padding: 50px; 
+
+  
+
+.footer {
+    background-color: #00ffff;
+    font-weight: bold;
+}

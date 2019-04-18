@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+        <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
+    <h1 id="content"></h1>
+
+
+    <div>
+             <form id="yes" action="/test">
+                 <input type="hidden" name="ids" value="99">
+                 <input type="hidden" name="answer" value = "yes">
+                 <button type="submit">yes</button>
+             </form>
+
+             <form id="no" action="/test">
+                <input type="hidden" name="ids" value="99">
+                <input type="hidden" name="answer" value = "no">
+                <button type="submit">no</button>
+            </form>
+    </div>
+    <div>
+        <a id="vote" href="/vote/${randomId}">
+            <button>Ket qua vote</button>
+        </a>
+
+        <a href="/ask">
+            <button>Them cau hoi</button>
+        </a>
+        <a href="/">
+            <button>Cau hoi khac</button>
+        </a>
+
+    </div>
+
+    <li></li>
+    <script>
+            $.ajax({
+                url: "http://localhost:9696/randomquestion",
+                type: "GET",
+                success: function(data){
+                    console.log(data);
+                    $( "#content" ).text(data["content"]);
+                    $( "#yes input[name='ids']" ).attr("value", data["id"]);
+                    $( "#no input[name='ids']" ).attr("value", data["id"]);
+                    $( "#vote" ).attr("href", `/vote/${data["id"]}`);
+                },
+                error: function(err){
+                    console.log(err);
+                }
+            });
+            
+            
+            // $( "input[value='Hot Fuzz']" )
+        </script>
+
+</body>
+</html>

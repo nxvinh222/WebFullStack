@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hãy hỏi cộng đồng một câu hỏi đúng/sai hoặc có/không</h1>
+    <form action="/addquestion" method = "post">
+        <textarea name="question" id="" cols="100" rows="10" maxlength="200"></textarea>
+        <span id = "remain">còn 200/200 ký tự</span>
+        <button>Gửi</button>
+    </form>
+    <!-- <script src= ”./jquery-3.4.0.min.js”></script> -->
+    <script src="https://code.jquery.com/jquery-3.4.0.js"></script>
+    <script>     
+        // document.querySelector("textarea").addEventListener('input', function(e){
+        //     // do something
+        //     number = document.querySelector("textarea").value.length;
+        //     str = `Còn ${200 - number}/200 ký tự`
+        //     document.querySelector("span").innerText = str
+        // });
+
+
+        $("textarea").on('input', function(e){
+            // do something
+            number = $( "textarea" ).val().length;
+            str = `Còn ${200 - number}/200 ký tự`
+            $( "#remain" ).text(str);
+        });
+    </script>
+</body>
+</html>

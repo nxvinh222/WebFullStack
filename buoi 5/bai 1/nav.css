@@ -18,11 +18,9 @@
   .sub-menu {
       display: none;
       position: absolute;
-      z-index: 1;
   }
   
   .sub-menu span{
-    display: block;
     padding: 7px;
     color: #402E2A;
     background: #D5B0AC;
@@ -31,14 +29,16 @@
     border-bottom: 0.3px solid #ffffff;
   }
   
-  .menu span:hover > .sub-menu{
-      display: inline-block;
+  .menu span:hover > .menu.sub-menu{
+      display: block;
       color: #ffffff;
       background: #9CD08F;
   }
   
-.sub-menu :hover > .sub-menu{
+.sub-menu span:hover > .menu.sub-menu{
       display: inline-block;
       color: #ffffff;
       background: #9CD08F;
+      left: 100%;
+      top: 0%;
   }

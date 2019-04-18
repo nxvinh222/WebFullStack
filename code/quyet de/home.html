@@ -25,7 +25,7 @@
             </form>
     </div>
     <div>
-        <a id="vote" href="/vote/${randomId}">
+        <a id="votes" href="#">
             <button>Ket qua vote</button>
         </a>
 
@@ -48,7 +48,7 @@
                     $( "#content" ).text(data["content"]);
                     $( "#yes input[name='ids']" ).attr("value", data["id"]);
                     $( "#no input[name='ids']" ).attr("value", data["id"]);
-                    $( "#vote" ).attr("href", `/vote/${data["id"]}`);
+                    $( "#votes" ).attr("href", `/votes/${data["id"]}`);
                 },
                 error: function(err){
                     console.log(err);

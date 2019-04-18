@@ -52,6 +52,22 @@ app.get("/ask", function(req, res){
     res.sendFile(__dirname + "/ask.html")
 })
 
+
+app.get("/getinfo/:id", function(req,res){
+    const questionsList = JSON.parse(
+        fs.readFileSync("questions.json", {encoding: "utf-8"} )      
+    );
+    const { id } = req.params;
+    const question = questionsList[id];
+    console.log(question);
+    res.send(question);
+})
+
+app.get("/votes/:id", function(req, res){
+    const { id } = req.params;
+    res.sendFile(__dirname + "/votes.html");
+})
+
 app.post("/addquestion", function(req, res){
     // lay question tu req.body
     // const question = req.body.question
@@ -98,23 +114,23 @@ app.get('/test', function(req, res){
 
 
     fs.writeFileSync("./questions.json", JSON.stringify(questions));
-    res.redirect(`/vote/${questions[ids]["id"]}`);
+    res.redirect(`/votes/${questions[ids]["id"]}`);
     
 })
 
-app.get('/vote/:ids', function(req, res){
-    const { ids } = req.params;
-    const questions = JSON.parse(
-        fs.readFileSync("questions.json", {encoding:"utf-8"}
-        ));
-    res.send(`
-            <h1>${questions[ids]["content"]}</h1>
-            <li>yes: ${questions[ids]["yes"]}</li>
-            <li>no: ${questions[ids]["no"]}</li>
-            <a href="/">Go back</a>
-            `)
+// app.get('/vote/:ids', function(req, res){
+//     const { ids } = req.params;
+//     const questions = JSON.parse(
+//         fs.readFileSync("questions.json", {encoding:"utf-8"}
+//         ));
+//     res.send(`
+//             <h1>${questions[ids]["content"]}</h1>
+//             <li>yes: ${questions[ids]["yes"]}</li>
+//             <li>no: ${questions[ids]["no"]}</li>
+//             <a href="/">Go back</a>
+//             `)
      
-})
+// })
 
 app.listen(9696, function(err){
     if (err) console.log(err)

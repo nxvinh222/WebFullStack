@@ -38,7 +38,7 @@
 
     </div>
 
-    <li></li>
+
     <script>
             $.ajax({
                 url: "http://localhost:9696/randomquestion",
@@ -46,9 +46,9 @@
                 success: function(data){
                     console.log(data);
                     $( "#content" ).text(data["content"]);
-                    $( "#yes input[name='ids']" ).attr("value", data["id"]);
-                    $( "#no input[name='ids']" ).attr("value", data["id"]);
-                    $( "#votes" ).attr("href", `/votes/${data["id"]}`);
+                    $( "#yes input[name='ids']" ).attr("value", data["_id"]);
+                    $( "#no input[name='ids']" ).attr("value", data["_id"]);
+                    $( "#votes" ).attr("href", `/votes/${data["_id"]}`);
                 },
                 error: function(err){
                     console.log(err);

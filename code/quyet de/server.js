@@ -2,6 +2,33 @@ const express = require("express");
 const app = express();
 const bodyParser = require("body-parser")
 const fs = require("fs");
+const mongoose = require("mongoose");
+
+const QuestionModel = require("./models/questionModel")
+
+
+mongoose.connect("mongodb://localhost/quyet-de-21", 
+    { useNewUrlParser: true},
+    function(err){
+        if (err) console.log(err)
+        else console.log("DB connected");
+
+        // QuestionModel.create({
+        //     content: "Hello World",
+
+        // }, function(err, docCreated){
+        //     if (err) console.log(err)
+        //     else console.log("Created!");
+        // })
+
+        QuestionModel.find({}, function(err, docs){
+            if (err) console.log(err)
+            // else console.log("Question: ", docs);
+        })
+    }
+)
+
+
 
 // data-type: application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false}))
@@ -39,12 +66,44 @@ app.get("/", function(req, res){
 
 app.get("/randomquestion", function(req, res){
 
-    const questions = JSON.parse(
-        fs.readFileSync("questions.json", {encoding:"utf-8"}
-        ));
-    const randomId = Math.floor(Math.random()*questions.length);
-    const question = questions[randomId];
-    res.send(question);
+    //Cach 1
+    // QuestionModel.count({}, function(err, count){
+    //     if (err) console.log(err)
+    //     else QuestionModel.find({}, function(err, docs){
+    //         if (err) console.log(err)
+    //         else res.send(docs[Math.floor(Math.random()*count)]);
+    //     })
+      
+    // });
+
+    //Cach 1.5
+    // QuestionModel.find({}, function(err, docs){
+    //     if (err) console.log(err)
+    //     else {
+    //         const randomIndex = Math.floor(Math.random()*docs.length)
+    //         const question = docs[randomIndex];
+    //         // res.send(question);
+    //         res.json(question);
+    //     }
+    // })
+
+    //Cach 2
+    QuestionModel.count({}, function(err, count){
+        if (err) console.log(err)
+        else {
+            const randomId = Math.floor(Math.random()*count);
+            QuestionModel
+                .findOne({})
+                .skip(randomId)
+                .exec(function(err, question){
+                    // console.log(question)
+                    if (err) console.log(err)
+                    else  res.json(question);
+                })
+        }
+    })
+  
+    
 
 })
 
@@ -54,13 +113,18 @@ app.get("/ask", function(req, res){
 
 
 app.get("/getinfo/:id", function(req,res){
-    const questionsList = JSON.parse(
-        fs.readFileSync("questions.json", {encoding: "utf-8"} )      
-    );
+    // const questionsList = JSON.parse(
+    //     fs.readFileSync("questions.json", {encoding: "utf-8"} )      
+    // );
     const { id } = req.params;
-    const question = questionsList[id];
-    console.log(question);
-    res.send(question);
+    // const question = questionsList[id];
+    QuestionModel.findById(id, function(err, docs){
+        if (err) console.log(err)
+        else res.json(docs);
+        
+    })
+    // console.log(question);
+    // res.send(question);
 })
 
 app.get("/votes/:id", function(req, res){
@@ -69,69 +133,57 @@ app.get("/votes/:id", function(req, res){
 })
 
 app.post("/addquestion", function(req, res){
-    // lay question tu req.body
-    // const question = req.body.question
-    const questions = JSON.parse(
-        fs.readFileSync("./questions.json", { encoding: "utf-8" })
-    );
+    
     const { question } = req.body;
-    console.log(req.body)
-    const newQuestion = {
-        content: question,
-        yes: 0,
-        no: 0,
-        id: questions.length,
-    }
-    questions.push(newQuestion);
-    fs.writeFileSync("./questions.json", JSON.stringify(questions));
+    QuestionModel.create({
+            content: question,
+
+        }, function(err, docCreated){
+            if (err) console.log(err)
+            else console.log("Created!");
+        })
+
+
     res.send(`<a href="/">Go back</a>`);
-    // res.send("ok");
+
 })
 
-//http://localhost:9696/test?ids=3&answer=1
+//http://localhost:9696/test?id=3&answer=1
 app.get('/test', function(req, res){
     const { ids, answer } = req.query;
     
         
 
-    const questions = JSON.parse(
-        fs.readFileSync("questions.json", {encoding:"utf-8"}
-        ));
+    // const questions = JSON.parse(
+    //     fs.readFileSync("questions.json", {encoding:"utf-8"}
+    //     ));
     
 
+    // QuestionModel.find({}, function(err, docs){
+    //     if 
+    // })
+
+    QuestionModel.findById(ids, function(err, docs){
+        if (err) console.log(err)
+        else {         
+            docs[answer]++; 
+            docs.save();
+            res.redirect(`/votes/${ids}`); 
+        }
+
+    })
+    // questions[ids][answer]++
+    // console.log(ids);
+    // console.log(answer);
+    // console.log(questions[ids][answer])
+   
+
+
+    // fs.writeFileSync("./questions.json", JSON.stringify(questions));
     
-    questions[ids][answer]++
-    console.log(ids);
-    console.log(answer);
-    console.log(questions[ids][answer])
-    //  for (let i=0 ; i < questions.length ; i++)
-    //  {
-    //      if (questions[i].id == ids) {
-    //             questions[i].[vote]++;
-    //             // res.send(`<li>yes: ${questions[i].yes}<li>
-    //             //           <li>no: ${questions[i].no}<li>`);
-    //     }
-    // }
-
-
-    fs.writeFileSync("./questions.json", JSON.stringify(questions));
-    res.redirect(`/votes/${questions[ids]["id"]}`);
     
 })
 
-// app.get('/vote/:ids', function(req, res){
-//     const { ids } = req.params;
-//     const questions = JSON.parse(
-//         fs.readFileSync("questions.json", {encoding:"utf-8"}
-//         ));
-//     res.send(`
-//             <h1>${questions[ids]["content"]}</h1>
-//             <li>yes: ${questions[ids]["yes"]}</li>
-//             <li>no: ${questions[ids]["no"]}</li>
-//             <a href="/">Go back</a>
-//             `)
-     
-// })
 
 app.listen(9696, function(err){
     if (err) console.log(err)

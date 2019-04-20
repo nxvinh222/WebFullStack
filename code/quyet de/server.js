@@ -75,6 +75,7 @@ app.post("/addquestion", function(req, res){
         fs.readFileSync("./questions.json", { encoding: "utf-8" })
     );
     const { question } = req.body;
+    console.log(req.body)
     const newQuestion = {
         content: question,
         yes: 0,

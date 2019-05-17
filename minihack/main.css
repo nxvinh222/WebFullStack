@@ -1,0 +1,21 @@
+.btn-primary {
+    color: #fff;
+    background-color: #BF1363 !important;
+    border-color: #BF1363 !important;
+    
+}
+
+.form-control {
+    border-color: #BF1363 !important;
+}
+
+.form-group .form-control:focus{
+    box-shadow: 0 0 5px #BF1363 !important;
+    border-color: #BF1363 !important;
+}
+@import "bootstrap";
+
+body {
+    background-color: #FBFEF9;
+    color: #333333
+}

@@ -59,7 +59,7 @@ UserApiRouter.delete('/:id', function(req, res){
     UserModel.findById(id, function(err, userFound){
         if (err) res.json({ success: false, err: "Not found"})
         else {
-            UserModel.remove(function(err){
+            userFound.remove(function(err){
                 if (err) res.json({ success: false, err})
                 else res.json({ success: true})
             })
@@ -67,5 +67,6 @@ UserApiRouter.delete('/:id', function(req, res){
         } 
     })
 })
+
 
 module.exports = UserApiRouter;

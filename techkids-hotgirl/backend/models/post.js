@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
 const model = mongoose.model;
-const schema = mongoose.schema;
+const Schema = mongoose.Schema;
 
-const PostSchema = new schema({
+const PostSchema = new Schema({
     author: {
-        type: schema.Types.ObjectId. ref: 'user'
+        type: [{ type: Schema.Types.ObjectId, ref: 'user' }]
     },
     date: Date,
     post: String,

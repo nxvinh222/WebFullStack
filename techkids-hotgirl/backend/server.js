@@ -11,6 +11,9 @@ mongoose.connect('mongodb://localhost/tk-hotgirls');
 const userApiRouter = require('./routers/userApi');
 app.use('/api/users', userApiRouter);
 
+const postApiRouter = require('./routers/postApi');
+app.use('/api/post', postApiRouter); 
+
 app.listen(8008, function(err){
     if (err) console.log(err)
     else console.log("Link start!");

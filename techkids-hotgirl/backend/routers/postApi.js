@@ -4,7 +4,9 @@ const PostApiRouter = express.Router();
 const PostModel = require('../models/post');
 
 PostApiRouter.get("/", function(req, res){
-    PostModel.find({}, function(err, post){
+    PostModel.find({})
+    .populate('author', '-password')
+    .exec(function(err, post){
         if (err) res.json({ success: false, err })
         else res.json({ success: true, data: post })
     })
@@ -36,7 +38,7 @@ PostApiRouter.get("/:id", function(req, res){
 
 PostApiRouter.put("/:id", function(req, res){
     let { id } = req.params;
-    PostModel.findOne({ author: id }, function(err, postFound){
+    PostModel.findById(id, function(err, postFound){
         if (err) res.json({ success: false, err:'not found!' })
         else if (!postFound) res.json({ success: false, err })
         else{
